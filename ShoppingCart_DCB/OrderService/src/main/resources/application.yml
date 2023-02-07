@@ -1,0 +1,76 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:product
+    username: sa
+    password: password
+    driverClassName: org.h2.Driver
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+#  datasource:
+#    url: jdbc:oracle:thin:@localhost:1521:xe
+#    username: system
+#    password: sirisha
+#    driver-class-name: oracle.jdbc.OracleDriver
+#  application:
+#    name: ORDER-SERVICE
+  config:
+    import: configserver:http://${CONFIG_SERVER_URL:localhost}:8064
+#  zipkin:
+#    base-url: http://127.0.0.1:9411/
+#  security:
+#    oauth2:
+#      resourceserver:
+#        jwt:
+#          issuer-uri: https://dev-20277398.okta.com/oauth2/default
+#      client:
+#        registration:
+#          internal-client:
+#            provider: okta
+#            authorization-grant-type: client-credentials
+#            scope:
+#            - internal
+#            client-id: 0oa7l50t2uzzbMcMy5d7
+#            client-secret: nkqehS2es6isYaTV2PWL9FGkQuwcJBGelUGCZrRC
+#        provider:
+#          okta:
+#            issuer-uri: https://dev-20277398.okta.com/oauth2/default
+
+server:
+  port: 8060
+  
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: ${EUREKA_SERVER_ADDRESS:http://localhost:8761/eureka/}
+#  instance:
+#    hostname: localhost
+    
+    
+resilience4j:
+  circuitbreaker:
+    instances:
+      external:
+        event-consumer-buffer-size: 10
+        failure-rate-threshold: 50
+        minimum-number-of-calls: 5
+        automatic-transition-from-open-to-half-open-enabled: true
+        wait-duration-in-open-state: 5s
+        permitted-number-of-calls-in-half-open-state: 3
+        sliding-window-size: 10
+        sliding-window-type: count-based
+        
+#okta:
+#  oauth2:
+#    issuer: https://dev-20277398.okta.com/oauth2/default
+#    audience: api://default
+
+   
+
+    
+
+  

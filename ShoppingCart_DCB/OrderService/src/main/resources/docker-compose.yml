@@ -1,0 +1,56 @@
+version: '3'
+services:
+  orderservice:
+    image: 'rajesh/orderservice'
+    container_name: orderservice
+    ports:
+      - '8060:8060'
+    depends_on:
+      - configserver
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+      - CONFIG_SERVER_URL=configserver
+  paymentservice:
+    image: 'rajesh/paymentservice'
+    container_name: paymentservice
+    ports:
+      - '8061:8061'
+    depends_on:
+      - configserver
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+  productservice:
+    image: 'rajesh/productservice'
+    container_name: 'productservice'
+    ports:
+      - '8059:8059'
+    depends_on:
+      - configserver
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+  cloudgateway:
+    image: 'rajesh/cloudgateway'
+    container_name: 'cloudgateway'
+    ports:
+      - '8062:8062'
+    depends_on:
+      - configserver
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+    
+  serviceregistry:
+    image: 'rajesh/serviceregistry'
+    container_name: 'serviceregistry'
+    ports:
+      - '8761:8761'
+  configserver:
+    image: 'rajesh/configserver'
+    container_name: 'configserver'
+    ports:
+      - '8064:8064'
+    depends_on:
+      - serviceregistry
+    environment:
+      - EUREKA_SERVER_ADDRESS=http://serviceregistry:8761/eureka
+    
+    

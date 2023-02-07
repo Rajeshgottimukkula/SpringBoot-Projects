@@ -1,0 +1,43 @@
+package com.example.OrderService;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.springframework.cloud.client.DefaultServiceInstance;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.loadbalancer.core.ServiceInstanceListSupplier;
+
+import reactor.core.publisher.Flux;
+
+public class TestServiceInstanceListSupplier implements ServiceInstanceListSupplier {
+
+	@Override
+	public Flux<List<ServiceInstance>> get() {
+		// TODO Auto-generated method stub
+		
+		List<ServiceInstance> result=new ArrayList<>();
+		result.add(new DefaultServiceInstance(
+				"PAYMENT-SERVICE",
+				"PAYMENT-SERVICE",
+				"localhost",
+				8761,
+				false));
+		result.add(new DefaultServiceInstance(
+				"PRODUCT-SERVICE",
+				"PRODUCT-SERVICE",
+				"localhost",
+				8761,
+				false));
+		
+		
+		
+		return Flux.just(result);
+	}
+
+	@Override
+	public String getServiceId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}
