@@ -24,6 +24,8 @@ public class ProductController {
 	ProductService productService;
 	
 	
+	//To add a new product
+	
 	//@PreAuthorize("hasAuthority('Admin')")
 	@PostMapping()
 	public ResponseEntity<Long> addProduct(@RequestBody ProductRequest productRequest){
@@ -32,12 +34,18 @@ public class ProductController {
 		long productId=productService.addProduct(productRequest);
 		return new ResponseEntity<>(productId,HttpStatus.CREATED);
 	}
+	
+	//Gets product details by Id
+	
 	//@PreAuthorize("hasAuthority('Admin')||hasAuthority('Customer')||hasAuthority('SCOPE_internal')")
 	@GetMapping("/{id}")
 	public ResponseEntity<ProductResponse> getProductById(@PathVariable long id){
 		ProductResponse productResponse=productService.getProductById(id);
 		return new ResponseEntity<>(productResponse,HttpStatus.OK);
 	}
+	
+	
+	//Reduces the quantity of the product
 	
 	@PutMapping("/reduceQuantity/{id}")
 	public ResponseEntity<Void> reduceQuantity(@PathVariable("id") long id,@RequestParam long quantity){
