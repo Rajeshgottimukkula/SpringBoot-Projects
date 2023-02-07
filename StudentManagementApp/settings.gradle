@@ -1,0 +1,5 @@
+rootProject.name = 'StudentManagementApp'
+include 'StudentModule'
+include 'TaskModule'
+include 'CourseModule'
+

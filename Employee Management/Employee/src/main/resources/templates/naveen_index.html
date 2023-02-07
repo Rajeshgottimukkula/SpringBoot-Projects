@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>task</title>
+    <style>
+
+        /* Task - 1 */
+        #month-year-dropdown {
+            margin-bottom: 20px;
+        }
+
+        #dates-container {
+
+            margin-left: 20px;
+        }
+        #dates-container div div {
+            margin-right: 50px;
+            margin-bottom: 10px;
+        }
+         #dates-container div div input {
+            margin-left: 10px;
+            width: 20px;
+         }
+         #dates-container div .hidden {
+
+            opacity: 0;
+         }
+         /* Task -2 */
+        </style>
+</head>
+<body>
+    <!-- Task -1 -->
+    <h3>Select month and Year:</h3>
+    <select id="month-year-dropdown"></select>
+    <div id="dates-container"></div>
+
+    <!-- Task -2  -->
+    <script>
+        // Task - 1
+        var monthName = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+        var currentDate = new Date();
+
+        var currentMonth = currentDate.getMonth();
+       
+        var currentYear = currentDate.getFullYear();
+
+        var select = document.getElementById("month-year-dropdown");
+        
+        var datesContainer = document.getElementById("dates-container");
+
+        for (var i = 0; i < 4; i++) {
+
+         if (i == 0) {
+
+                var option = document.createElement("option");
+
+                option.value = "default";
+
+                option.text = "";
+
+                option.selected = true;
+
+                option.disabled = true;
+                
+                select.appendChild(option);
+
+            }
+            
+
+            var month = (currentMonth - i + 12) % 12;
+
+            var year = currentYear;
+
+            if (month > currentMonth) {
+
+                year--;
+
+            }
+            
+            var option = document.createElement("option");
+           
+            option.value = (month + 1) + "-" + year;
+           
+            option.text = monthName[month] + "-" + year;
+            
+            select.appendChild(option);
+
+        }
+
+         select.addEventListener("click", function() {
+            
+            var selectedValue = this.value;
+           
+            var selectedMonth = selectedValue.split("-")[0];
+           
+            var selectedYear = selectedValue.split("-")[1];
+             
+            var daysInMonth = new Date(selectedYear, selectedMonth, 0).getDate();
+           
+            datesContainer.innerHTML = "";
+
+            if (selectedValue !== "default") {
+                 var dateCounter = 1;
+                
+                for (var i = 1; i <= 35; i = i + 7) {
+                   
+                    var column = document.createElement("div");
+                    
+                    column.style.display = "inline-block";
+                   
+                    for (var j = 0; j < 7; j++) {
+                       
+                        var date = "" + new Date(selectedYear, selectedMonth - 1, dateCounter);
+                        
+                        var day = date.split(" ")[0];
+                        
+                        var div = document.createElement("div");
+                        
+                        var label = document.createElement("label");
+                        
+                        label.innerHTML = day +"  "+dateCounter;
+                       
+                        var input = document.createElement("input");
+
+                        input.type = "text";
+                        
+                        if (day === "Sat" || day === "Sun") {
+                            
+                            input.value = 0
+
+                        } else {
+
+                            input.value = 1
+                        }
+                        
+                        if (dateCounter > daysInMonth) {
+                            
+                            div.classList.add('hidden');
+
+                        }    
+
+                        div.appendChild(label);
+
+                        div.appendChild(input);
+                       
+                        column.appendChild(div);
+                        
+                        dateCounter++;
+                    }
+                   
+                    datesContainer.appendChild(column);
+
+                }
+
+            }
+
+        });
+
+    </script>
+</body>
+</html>
